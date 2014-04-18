@@ -1,0 +1,141 @@
+#Remember kids, classes, methods, and functions are for nerds! Real men never organize their code in any way. 
+#Realtalk though, I didn't think I'd be sharing this code so I didn't bother with any of that or using naming conventions. 
+
+from twill.commands import *
+import re
+import webbrowser
+import smtplib
+
+print " ____   _   __  _____  __  __    _  _____ ___ ____ "
+print "|  _ \ / \  \ \/ / _ \|  \/  |  / \|_   _|_ _/ ___|"
+print "| |_) / _ \  \  | | | | |\/| | / _ \ | |  | | |    "
+print "|  __/ ___ \ /  | |_| | |  | |/ ___ \| |  | | |___"
+print "|_| /_/   \_/_/\_\___/|_|  |_/_/   \_|_| |___\____|"
+print " "
+print " "
+print "Welcome to the Paxomatic, your best bet for getting those badges!"
+print " "
+print "Please enter the full URL (including http://) of the webpage you want to monitor."
+print " "
+webpage = raw_input ("URL:")
+print " "
+print "Please enter your email address to receive email alerts."
+print " "
+recipient = raw_input ("Email:")
+
+print "Navigating to page..."
+sleep(2)
+
+go(webpage)
+sleep(1)
+#webbrowser.open_new_tab(webpage)
+
+print "Connection successful!"
+sleep(2)
+
+#stores whether the pages on the link have changed since last pageload. 
+linkchange = 0
+
+#counts how many times the page has been refreshed
+count = 0
+ 
+#If the testlist = [1,2,3,4,5] then the program knows this is the first time it's loaded the page.
+#I tried a few less retarded ways to do it but none of them wanted to cooperate. 
+testlist = [1,2,3,4,5]
+
+while linkchange == 0:
+    #generates a list of all the linked URLS, then generates a new list from that one that doesn't include all the links' metadata. 
+    linkhack = list(showlinks())
+    linkcount = len(linkhack)
+    linklist = list()
+    for x in range(0, linkcount):        
+        #print "The url is %s" % linkhack[y].url 
+        linklist.append(linkhack[x].url)
+       
+    #prints the number of links, then sees if the link list differs from last pageload's list.
+    print linkcount
+    print "Scanning for changes in page links..."
+    print " "
+    if testlist == [1,2,3,4,5]:
+        testlist = linklist
+        
+    elif testlist == linklist:
+        count += 1
+        print "All URLS the same. Refreshing in 10 seconds. This was pageload number %d" % count
+        sleep(10)
+        go("http://www.google.com") #twill's "reload" command wasn't working for some reason, so I made this workaround.
+        go(webpage)
+       
+      
+    else:
+        print "Difference detected!"
+        print "Links that have disappeared:"
+        gonelinks = [x for x in testlist if x not in linklist]
+        print gonelinks
+        print " "
+        print "New Links:"
+        newlinks = [x for x in linklist if x not in testlist]
+        print newlinks
+        print " "
+        
+        #connects to gmail and sends email alert. 
+        print "Sending you an email from my PAXAlert account..."
+        GMAIL_USERNAME = "paxomatic69"
+        GMAIL_PASSWORD = "paxpaxpax"
+        email_subject = "%s PAGE UPDATE" % webpage
+        linkstring = ' '.join(newlinks)
+        body_of_email = "%s has updated! Here are any new links added to the page, one of which is probably the badge registration page: %s" % (webpage, linkstring)
+
+        session = smtplib.SMTP('smtp.gmail.com', 587)
+        session.ehlo()
+        session.starttls()
+        session.login(GMAIL_USERNAME, GMAIL_PASSWORD)
+
+        headers = "\r\n".join(["from: " + GMAIL_USERNAME,
+                               "subject: " + email_subject,
+                               "to: " + recipient,
+                               "mime-version: 1.0",
+                               "content-type: text/html"])
+
+        # body_of_email can be plaintext or html! That's pretty neat!                   
+        content = headers + "\r\n\r\n" + body_of_email
+        session.sendmail(GMAIL_USERNAME, recipient, content)
+        
+        
+        #Asks the user if they want to open the new links which appeared on the page. 
+        newtab = raw_input ("Open new links in your default browser? y/n:  ")
+        if newtab == "y":
+            o = 0
+            listnewlinks = list(newlinks)
+            for p in range(0, len(listnewlinks)):
+                webbrowser.open(listnewlinks[o], new=2, autoraise=True)
+                o += 1
+            print "Links opened. Resuming program..."
+            sleep(3)
+        else:
+            print "Links not opened. Resuming program..."
+            sleep(3)
+            
+
+
+        print "Done! Enjoy getting PAX badges before anyone else! "
+        linkchange = 1
+
+        
+        
+        
+        
+        
+
+
+
+
+
+    
+
+
+
+
+    
+
+    

@@ -9,4 +9,6 @@ You put in the page you want to monitor and your email address and it sends you 
 
 It can also open the new links on the page for you if you want. 
 
-Ayup. 
+If running in Python, you will need the twill module, found at http://twill.idyll.org/
+
+Plans are to eventually get an exe version made once I figure out why py2exe isn't working with it. 

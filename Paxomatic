@@ -1,4 +1,18 @@
-#Remember kids, classes, methods, and functions are for nerds! Real men never organize their code in any way. 
+#     ∩＿＿＿∩
+#     |ノ      ヽ
+#    /   ●    ● |  Remember kids, classes, methods, and functions are for nerds!
+#   |     (_●_) ミ  Real men never organize their code in any way! 
+#  彡､     |∪|  ､｀＼
+#/ ＿＿    ヽノ /´>   )
+#(＿＿＿）     /  (_／
+#  |        /
+#  |   ／＼  ＼
+#  | /     )   )
+#   ∪     （   ＼
+#           ＼＿)
+
+
+ 
 #Realtalk though, I didn't think I'd be sharing this code so I didn't bother with any of that or using naming conventions. 
 
 from twill.commands import *

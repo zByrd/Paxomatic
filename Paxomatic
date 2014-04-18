@@ -1,6 +1,6 @@
 #     ∩＿＿＿∩
 #     |ノ      ヽ
-#    /   ●    ● |  Remember kids, classes, methods, and functions are for nerds!
+#    /   ●    ● |  Safetybear says: 
 #   |     (_●_) ミ  Real men never organize their code in any way! 
 #  彡､     |∪|  ､｀＼
 #/ ＿＿    ヽノ /´>   )
@@ -13,12 +13,17 @@
 
 
  
+
+
+ 
 #Realtalk though, I didn't think I'd be sharing this code so I didn't bother with any of that or using naming conventions. 
 
 from twill.commands import *
 import re
 import webbrowser
 import smtplib
+import sys
+from time import sleep
 
 print " ____   _   __  _____  __  __    _  _____ ___ ____ "
 print "|  _ \ / \  \ \/ / _ \|  \/  |  / \|_   _|_ _/ ___|"
@@ -40,10 +45,31 @@ recipient = raw_input ("Email:")
 print "Navigating to page..."
 sleep(2)
 
-go(webpage)
-sleep(1)
-#webbrowser.open_new_tab(webpage)
+def error_free_go(URL):
+    while True:
+        try:
+            go(URL)
+            sleep(1)
+            return URL
+        except BaseException:
+              print('The site you are monitoring seems to be down. Would you like to reinput the url? If so, press Control + C.')
+              print('Otherwise, Paxomatic will continue to refresh the page as normal after 20 seconds.')
+              try:
+                for i in range(0,20):
+                    sleep(1) # could use a backward counter to be preeety :)
+                print('No input given. Resuming program...')
+                print(' ')
+              except KeyboardInterrupt:
+                  URL = raw_input("New URL:")
+                  go(URL)
+                  sleep(1)
+                  return URL
 
+
+webpage = error_free_go(webpage)
+print webpage
+asdlj = raw_input("alsdkjf")
+                   
 print "Connection successful!"
 sleep(2)
 
@@ -62,8 +88,7 @@ while linkchange == 0:
     linkhack = list(showlinks())
     linkcount = len(linkhack)
     linklist = list()
-    for x in range(0, linkcount):        
-        #print "The url is %s" % linkhack[y].url 
+    for x in range(0, linkcount):         
         linklist.append(linkhack[x].url)
        
     #prints the number of links, then sees if the link list differs from last pageload's list.
@@ -78,7 +103,7 @@ while linkchange == 0:
         print "All URLS the same. Refreshing in 10 seconds. This was pageload number %d" % count
         sleep(10)
         go("http://www.google.com") #twill's "reload" command wasn't working for some reason, so I made this workaround.
-        go(webpage)
+        error_free_go(webpage)
        
       
     else:
@@ -137,6 +162,23 @@ while linkchange == 0:
 
         
         
+        
+        
+        
+
+
+
+
+
+    
+
+
+
+
+    
+
+    
+
         
         
         

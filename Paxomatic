@@ -45,6 +45,7 @@ recipient = raw_input ("Email:")
 print "Navigating to page..."
 sleep(2)
 
+#The standard go() command crashed if the URL the site was refreshing went down. This new command accounts for that. 
 def error_free_go(URL):
     while True:
         try:

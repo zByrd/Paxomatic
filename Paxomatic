@@ -103,7 +103,7 @@ while linkchange == 0:
         count += 1
         print "All URLS the same. Refreshing in 10 seconds. This was pageload number %d" % count
         sleep(10)
-        go("http://www.google.com") #twill's "reload" command wasn't working for some reason, so I made this workaround.
+        error_free_go("http://www.google.com") #twill's "reload" command wasn't working for some reason, so I made this workaround.
         error_free_go(webpage)
        
       

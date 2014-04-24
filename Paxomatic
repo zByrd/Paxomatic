@@ -69,7 +69,6 @@ def error_free_go(URL):
 
 webpage = error_free_go(webpage)
 print webpage
-asdlj = raw_input("alsdkjf")
                    
 print "Connection successful!"
 sleep(2)

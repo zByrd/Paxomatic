@@ -16,8 +16,10 @@
 
 
  
-#Realtalk though, I didn't think I'd be sharing this code so I didn't bother with any of that or using naming conventions. 
 
+
+ 
+#Realtalk though, I didn't think I'd be sharing this code so I didn't bother with any of that or using naming conventions.
 from twill.commands import *
 import re
 import webbrowser
@@ -45,7 +47,6 @@ recipient = raw_input ("Email:")
 print "Navigating to page..."
 sleep(2)
 
-#The standard go() command crashed if the URL the site was refreshing went down. This new command accounts for that. 
 def error_free_go(URL):
     while True:
         try:
@@ -73,6 +74,8 @@ print webpage
 print "Connection successful!"
 sleep(2)
 
+#stores whether the pages on the link have changed since last pageload. 
+linkchange = 0
 
 #counts how many times the page has been refreshed
 count = 0
@@ -90,7 +93,7 @@ while True:
         linklist.append(linkhack[x].url)
        
     #prints the number of links, then sees if the link list differs from last pageload's list.
-    print linkcount
+    print "%d links total." % linkcount
     print "Scanning for changes in page links..."
     print " "
     if testlist == [1,2,3,4,5]:
@@ -140,23 +143,46 @@ while True:
         
         
         #Asks the user if they want to open the new links which appeared on the page. 
-        newtab = raw_input ("Open new links in your default browser? y/n:  ")
-        if newtab == "y":
-            o = 0
+
+
+        print "Would you like to open any new links in your default browser?"
+        print "If so, please press control+C. Otherwise, Paxomatic will continue as normal in 30 seconds."
+        try:
+            for i in range(0,30):
+                sleep(1)
+            print "Links not opened."
+        except KeyboardInterrupt:
             listnewlinks = list(newlinks)
             for p in range(0, len(listnewlinks)):
-                webbrowser.open(listnewlinks[o], new=2, autoraise=True)
-                o += 1
-            print "Links opened. Resuming program..."
-            sleep(3)
-        else:
-            print "Links not opened. Resuming program..."
-            sleep(3)
-            
+                webbrowser.open_new(listnewlinks[p], new=2, autoraise=True)
+            print "Links opened."
+
+        print "Resuming Program"
+        testlist = linklist
 
 
-        print "Done! Enjoy getting PAX badges before anyone else! "
-        break
+        
+     
+
+        
+        
+        
+        
+        
+
+
+
+
+
+    
+
+
+
+
+    
+
+    
+
 
         
         

@@ -1,22 +1,4 @@
-#     ∩＿＿＿∩
-#     |ノ      ヽ
-#    /   ●    ● |  Safetybear says: 
-#   |     (_●_) ミ  Real men never organize their code in any way! 
-#  彡､     |∪|  ､｀＼
-#/ ＿＿    ヽノ /´>   )
-#(＿＿＿）     /  (_／
-#  |        /
-#  |   ／＼  ＼
-#  | /     )   )
-#   ∪     （   ＼
-#           ＼＿)
-
-
- 
-
-
- 
-
+#paxalertzbyrd@gmail.com colt.legit@gmail.com repathon@gmail.com Austin.LaLonde@gmail.com greg.keithpowers@gmail.com acpongratz@gmail.com claytonsorden@gmail.com 3606240861@vzwpix.com the_sam13@hotmail.com camdonk@gmail.com alecw155@gmail.com harbar10@gmail.com jackhrobertson@gmail.com
 
  
 #Realtalk though, I didn't think I'd be sharing this code so I didn't bother with any of that or using naming conventions.
@@ -40,9 +22,13 @@ print "Please enter the full URL (including http://) of the webpage you want to 
 print " "
 webpage = raw_input ("URL:")
 print " "
-print "Please enter your email address to receive email alerts."
+print "Please enter all email addresses you would like to receive alerts, separated by spaces."
 print " "
-recipient = raw_input ("Email:")
+recipients = raw_input ("Emails:")
+mailinglist = recipients.split(' ')
+
+
+
 
 print "Navigating to page..."
 sleep(2)
@@ -74,8 +60,6 @@ print webpage
 print "Connection successful!"
 sleep(2)
 
-#stores whether the pages on the link have changed since last pageload. 
-linkchange = 0
 
 #counts how many times the page has been refreshed
 count = 0
@@ -119,28 +103,32 @@ while True:
         print " "
         
         #connects to gmail and sends email alert. 
-        print "Sending you an email from my PAXAlert account..."
-        GMAIL_USERNAME = "paxomatic69"
-        GMAIL_PASSWORD = "paxpaxpax"
-        email_subject = "%s PAGE UPDATE" % webpage
-        linkstring = ' '.join(newlinks)
-        body_of_email = "%s has updated! Here are any new links added to the page, one of which is probably the badge registration page: %s" % (webpage, linkstring)
+        print "Sending alerts to the mailing list from my PAXAlert account..."
+        sleep(2)
 
-        session = smtplib.SMTP('smtp.gmail.com', 587)
-        session.ehlo()
-        session.starttls()
-        session.login(GMAIL_USERNAME, GMAIL_PASSWORD)
+        for m in range(0, len(mailinglist)):
+            GMAIL_USERNAME = "paxomatic69"
+            GMAIL_PASSWORD = "paxpaxpax"
+            email_subject = "%s PAGE UPDATE" % webpage
+            linkstring = ' '.join(newlinks)
+            body_of_email = "Paxomatic here! %s has updated! Here are any new links added to the page, one of which is probably the badge registration page: %s" % (webpage, linkstring)
 
-        headers = "\r\n".join(["from: " + GMAIL_USERNAME,
-                               "subject: " + email_subject,
-                               "to: " + recipient,
-                               "mime-version: 1.0",
-                               "content-type: text/html"])
+            session = smtplib.SMTP('smtp.gmail.com', 587)
+            session.ehlo()
+            session.starttls()
+            session.login(GMAIL_USERNAME, GMAIL_PASSWORD)
+            
+            headers = "\r\n".join(["from: " + GMAIL_USERNAME,
+                                   "subject: " + email_subject,
+                                   "to: " + mailinglist[m],
+                                   "mime-version: 1.0",
+                                   "content-type: text/html"])
 
-        # body_of_email can be plaintext or html! That's pretty neat!                   
-        content = headers + "\r\n\r\n" + body_of_email
-        session.sendmail(GMAIL_USERNAME, recipient, content)
-        
+            # body_of_email can be plaintext or html! That's pretty neat!                   
+            content = headers + "\r\n\r\n" + body_of_email
+            session.sendmail(GMAIL_USERNAME, mailinglist[m], content)
+            print "Sending email to \"%s\"" % mailinglist[m]
+            sleep(1)
         
         #Asks the user if they want to open the new links which appeared on the page. 
 
@@ -154,11 +142,12 @@ while True:
         except KeyboardInterrupt:
             listnewlinks = list(newlinks)
             for p in range(0, len(listnewlinks)):
-                webbrowser.open_new(listnewlinks[p], new=2, autoraise=True)
+                webbrowser.open_new(listnewlinks[p], 2, autoraise=True)
             print "Links opened."
 
         print "Resuming Program"
         testlist = linklist
+
 
 
         
